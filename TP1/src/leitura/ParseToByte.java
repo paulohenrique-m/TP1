@@ -2,7 +2,7 @@ package leitura;
 
 import java.io.*;
 
-
+// class to parse a variable into chosen type byte 
 class ParseToByte {
 //--> ATRIBUTOS
 
@@ -49,6 +49,7 @@ class ParseToByte {
 		 dos.flush();
 		 return bos.toByteArray();
 	}
+	// parsing the object UFO with all his components into byte 
 	protected static byte[] parseUfoToByte (Ufo ufo) {
 		ByteArrayOutputStream temp = new ByteArrayOutputStream();
 		ByteArrayOutputStream resp = new ByteArrayOutputStream();
@@ -73,7 +74,6 @@ class ParseToByte {
 			System.out.println("erro parse ufo");
 			return null;
 		}
-		//System.out.println(Arrays.toString(resp.toByteArray()));
 		return resp.toByteArray();
 	}
 	protected static Ufo parseByteToString (int id, byte[] b_array, int size_b_array) {
@@ -143,4 +143,4 @@ class ParseToByte {
 		else
 			return new String(b_array, off, len);
 	}
-}//END_PARSETOINT
+}

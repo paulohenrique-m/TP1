@@ -1,14 +1,15 @@
 package leitura;
-
+//line example 
 //id,city,state,date_time,stats,report_link,text,city_latitude,city_longitude
 
+// Class UFO
 public class Ufo {
 //--> ATRIBUTOS
 	private int id;
 	private	String city;
 	private char[] state;
 	private String date; //mudar para date
-	private String stats; //mudar para string array
+	private String stats;
 	private String report_link;
 	private String text;
 	private float city_latitude;
@@ -79,8 +80,28 @@ public class Ufo {
 	protected String getDate () {
 		return date;
 	}
-	protected void setStats (String stats) { //mudar para string array
-		this.stats = stats;
+	protected void setStats (String stats) {
+		// using a function that returns a pattern in given string
+		Pattern pattern = Pattern.compile("Occurred : (.+?) Reported: (.+?) Posted: (.+?) Location: (.+?) Shape: (.+?) Duration:(.+) seconds");
+		Matcher matcher = pattern.matcher(text);
+
+		if (matcher.find()) {
+			try {
+				String occurred = convertEmptyToNull(matcher.group(1));
+				String reported = convertEmptyToNull(matcher.group(2));
+				String posted = convertEmptyToNull(matcher.group(3));
+				String location = convertEmptyToNull(matcher.group(4));
+				String shape = convertEmptyToNull(matcher.group(5));
+				String duration = convertEmptyToNull(matcher.group(6));
+
+				String[] newText = {occurred, reported, posted, location, shape, duration};
+				this.stats = newText;
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}else {
+            System.out.println("Error in format.");
+        }
 	}
 	protected String getStats () {
 		return stats;
@@ -110,6 +131,7 @@ public class Ufo {
 		return city_longitude;
 	}
 //--> PRINT
+	// function that prints the object UFO
 	public void printUfo () {
 		System.out.println("ID: " + getId());
 		System.out.println("Date: " + getDate());

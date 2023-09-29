@@ -14,6 +14,7 @@ public class Menu {
 	}
 	
 //--> METODOS
+	// method that returns a menu with CRUD options to user
 	public void displayMenu () {
 		int x = 0;
 		int id = 0;
@@ -75,7 +76,7 @@ public class Menu {
 			}
 		} while(x != 0);
 	}
-
+	// method to clear user console
 	private final static void clearConsole() {
 		System.out.print("\033[H\033[2J");  
 		System.out.flush();  

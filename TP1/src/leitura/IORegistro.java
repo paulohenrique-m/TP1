@@ -4,36 +4,36 @@ import java.io.*;
 
 public class IORegistro {
 //--> ATRIBUTOS
-	private static final String FPATH = "./archive/ufoFormatado.csv";
-	private static final String FBPATH = "./archive/ufoByte.bin";
+	//insert the .csv archives path's 
+	private static final String FPATH = "path.csv";
+	private static final String FBPATH = "path.bin";
 	private static List list = new List();
 
 //--> CONSTRUTOR
 	private IORegistro() {
-		throw new AssertionError(); // classe nao deve ser instanciada em momento algum, por isso erro e n excessao
+		throw new AssertionError();
 	}
 
 //--> METODOS
+	//method to read .csv file, put into a UFO object and parse the UFO object to a byte array
 	public static void readFile() throws IOException {
-		//System.out.println(FPATH);
 		RandomAccessFile cf = new RandomAccessFile(FBPATH, "rw");
 		cf.writeInt(0);
 		cf.close();
-		try (FileReader fr = new FileReader(FPATH); BufferedReader reader = new BufferedReader(fr)) { // try-with-resources
-
+		try (FileReader fr = new FileReader(FPATH); BufferedReader reader = new BufferedReader(fr)) {
 			String registro;
 			while ((registro = reader.readLine()) != null && registro.length() != 0) {
 				Ufo ufo = IORegistro.parseString(registro);
 
 				byte[] arrayb = ParseToByte.parseUfoToByte(ufo);
-				try {
-					list.insert(arrayb);
-				} catch (Exception e) {
-					IORegistro.writeToFile();
+				int num_trying = 0;
+				while(num_trying<=2){
 					try {
 						list.insert(arrayb);
-					} catch (Exception x) {
-						System.out.println("weird");
+					} catch (Exception e) {
+						IORegistro.writeToFile();
+						num_trying++;
+						raiseException(e);
 					}
 				}
 			}
@@ -57,10 +57,10 @@ public class IORegistro {
 			ra.write(id_temp);
 			ra.close();
 		} catch (IOException e) {
-			System.out.println("erro");
+			raiseException(e);
 		}
 	}
-
+	// method to read a string from the .csv file and create a UFO object
 	private static Ufo parseString(String registro) {
 		String[] temp = new String[9];
 		Ufo ufo = null;
@@ -81,6 +81,7 @@ public class IORegistro {
 	}
 
 //--> SEARCH ID
+	// method to search into a byte file skiping tombstone's and the size of a int 
 	public static Ufo searchId (int id) throws FileNotFoundException, IOException {
 		byte[] registro = new byte[1000000];
 		FileInputStream file = new FileInputStream(FBPATH);
