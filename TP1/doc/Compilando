@@ -1,0 +1,5 @@
+Compilando do TERMINAL:
+javac -d bin/ -cp bin/ src/leitura/*.java
+javac -d bin/ -cp bin/ src/*.java
+
+!!! CUIDADO COM PATH DO ARQUIVO. CAMINHO RELATIVO DIFERENTE PARA IDE E TERMINAL !!!
